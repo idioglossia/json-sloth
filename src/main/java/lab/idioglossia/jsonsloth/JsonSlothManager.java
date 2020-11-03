@@ -19,7 +19,7 @@ public class JsonSlothManager {
     @SneakyThrows
     public void save(Object object) {
         JsonSlothEntity jsonSlothEntity = getValidJsonSlothEntity(object.getClass());
-        Field jsonSlothIdField = getValidJsonSlothIdField(object.getClass().getFields());
+        Field jsonSlothIdField = getValidJsonSlothIdField(object.getClass().getDeclaredFields());
 
         submit(object, jsonSlothEntity, jsonSlothIdField);
     }
@@ -47,7 +47,7 @@ public class JsonSlothManager {
     @SneakyThrows
     public <E, K> E get(String collectionName, K key, Class<E> dataType){
         JsonSlothEntity jsonSlothEntity = getValidJsonSlothEntity(dataType);
-        Field jsonSlothIdField = getValidJsonSlothIdField(dataType.getFields());
+        Field jsonSlothIdField = getValidJsonSlothIdField(dataType.getDeclaredFields());
 
         Collection<K, String> collection = jsonSlothStorage.getCollectionOfType(collectionName, jsonSlothEntity.type(), String.class);
         Value<String> value = collection.get(key);
@@ -71,6 +71,7 @@ public class JsonSlothManager {
     }
 
     private void setId(Value<String> saveValue, Field jsonSlothIdField, Object object) throws IllegalAccessException {
+        jsonSlothIdField.setAccessible(true);
         if(jsonSlothIdField.getType() == String.class)
             jsonSlothIdField.set(object, saveValue.id());
         else
