@@ -60,6 +60,7 @@ public class JsonSlothManager {
         Field jsonSlothIdField = getJsonSlothIdField(fields);
         assert jsonSlothIdField != null;
         assert jsonSlothIdField.getType() == Integer.class || jsonSlothIdField.getType() == String.class;
+        jsonSlothIdField.setAccessible(true);
         return jsonSlothIdField;
     }
 
@@ -71,7 +72,6 @@ public class JsonSlothManager {
     }
 
     private void setId(Value<String> saveValue, Field jsonSlothIdField, Object object) throws IllegalAccessException {
-        jsonSlothIdField.setAccessible(true);
         if(jsonSlothIdField.getType() == String.class)
             jsonSlothIdField.set(object, saveValue.id());
         else
