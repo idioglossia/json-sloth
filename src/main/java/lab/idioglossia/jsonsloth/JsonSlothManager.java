@@ -20,22 +20,30 @@ public class JsonSlothManager {
     public void save(Object object) {
         JsonSlothEntity jsonSlothEntity = getValidJsonSlothEntity(object.getClass());
         Field jsonSlothIdField = getValidJsonSlothIdField(object.getClass().getDeclaredFields());
-
-        submit(object, jsonSlothEntity, jsonSlothIdField);
+        if(jsonSlothEntity.type().equals(Collection.Type.LIST) && jsonSlothIdField.get(object) != null)
+            update(object, jsonSlothEntity, jsonSlothIdField);
+        else
+            submit(object, jsonSlothEntity, jsonSlothIdField);
     }
 
     @SneakyThrows
-    private void submit(Object object, JsonSlothEntity jsonSlothEntity, Field jsonSlothIdField) {
-        final String json = objectMapper.writeValueAsString(object);
-        Collection<String, String> collection = jsonSlothStorage.getCollectionOfType(jsonSlothEntity.collectionName(), jsonSlothEntity.type(), String.class);
-        Value<String> saveValue;
-        if(jsonSlothEntity.type().equals(Collection.Type.MAP)){
-            String key = getKey(jsonSlothIdField, object);
-            saveValue = collection.save(key, new SaveValue(json));
-        }else {
-            saveValue = collection.save(new SaveValue(json));
-        }
-        setId(saveValue, jsonSlothIdField, object);
+    public void update(Object object){
+        JsonSlothEntity jsonSlothEntity = getValidJsonSlothEntity(object.getClass());
+        Field jsonSlothIdField = getValidJsonSlothIdField(object.getClass().getDeclaredFields());
+        if(jsonSlothEntity.type().equals(Collection.Type.LIST) && jsonSlothIdField.get(object) == null)
+            submit(object, jsonSlothEntity, jsonSlothIdField);
+        else
+            update(object, jsonSlothEntity, jsonSlothIdField);
+    }
+
+    @SneakyThrows
+    public void delete(Object object){
+        JsonSlothEntity jsonSlothEntity = getValidJsonSlothEntity(object.getClass());
+        Field jsonSlothIdField = getValidJsonSlothIdField(object.getClass().getDeclaredFields());
+
+        Collection<Object, String> collection = jsonSlothStorage.getCollectionOfType(jsonSlothEntity.collectionName(), jsonSlothEntity.type(), String.class);
+        assert jsonSlothIdField.get(object) != null;
+        collection.remove(jsonSlothIdField.get(object));
     }
 
     @SneakyThrows
@@ -54,6 +62,27 @@ public class JsonSlothManager {
         E result = objectMapper.readValue(value.getData(), dataType);
         setId(value, jsonSlothIdField, result);
         return result;
+    }
+
+    @SneakyThrows
+    private void update(Object object, JsonSlothEntity jsonSlothEntity, Field jsonSlothIdField) {
+        final String json = objectMapper.writeValueAsString(object);
+        Collection<String, String> collection = jsonSlothStorage.getCollectionOfType(jsonSlothEntity.collectionName(), jsonSlothEntity.type(), String.class);
+        collection.update(getKey(jsonSlothIdField, object), new SaveValue(json));
+    }
+
+    @SneakyThrows
+    private void submit(Object object, JsonSlothEntity jsonSlothEntity, Field jsonSlothIdField) {
+        final String json = objectMapper.writeValueAsString(object);
+        Collection<String, String> collection = jsonSlothStorage.getCollectionOfType(jsonSlothEntity.collectionName(), jsonSlothEntity.type(), String.class);
+        Value<String> saveValue;
+        if(jsonSlothEntity.type().equals(Collection.Type.MAP)){
+            String key = getKey(jsonSlothIdField, object);
+            saveValue = collection.save(key, new SaveValue(json));
+        }else {
+            saveValue = collection.save(new SaveValue(json));
+        }
+        setId(saveValue, jsonSlothIdField, object);
     }
 
     private Field getValidJsonSlothIdField(Field[] fields) {
