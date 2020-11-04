@@ -59,9 +59,12 @@ public class JsonSlothManager {
 
         Collection<K, String> collection = jsonSlothStorage.getCollectionOfType(collectionName, jsonSlothEntity.type(), String.class);
         Value<String> value = collection.get(key);
-        E result = objectMapper.readValue(value.getData(), dataType);
-        setId(value, jsonSlothIdField, result);
-        return result;
+        if(value.exists()){
+            E result = objectMapper.readValue(value.getData(), dataType);
+            setId(value, jsonSlothIdField, result);
+            return result;
+        }
+        return null;
     }
 
     @SneakyThrows
