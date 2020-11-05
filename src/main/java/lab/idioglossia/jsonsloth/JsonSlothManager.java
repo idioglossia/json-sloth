@@ -26,6 +26,11 @@ public class JsonSlothManager {
             submit(object, jsonSlothEntity, jsonSlothIdField);
     }
 
+    public int size(Class<?> aClass){
+        JsonSlothEntity jsonSlothEntity = getValidJsonSlothEntity(aClass);
+        return jsonSlothStorage.getCollectionOfType(jsonSlothEntity.collectionName(), jsonSlothEntity.type(), String.class).size();
+    }
+
     @SneakyThrows
     public void update(Object object){
         JsonSlothEntity jsonSlothEntity = getValidJsonSlothEntity(object.getClass());
