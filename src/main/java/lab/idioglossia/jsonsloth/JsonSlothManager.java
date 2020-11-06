@@ -18,8 +18,8 @@ public class JsonSlothManager {
         this.objectMapper = objectMapper;
     }
 
-    public <K> List<K> getKeys(Object object){
-        JsonSlothEntity jsonSlothEntity = getValidJsonSlothEntity(object.getClass());
+    public <K> List<K> getKeys(Class<?> aClass){
+        JsonSlothEntity jsonSlothEntity = getValidJsonSlothEntity(aClass);
         Collection<K, String> collectionOfType = jsonSlothStorage.getCollectionOfType(jsonSlothEntity.collectionName(), jsonSlothEntity.type(), String.class);
         return new ArrayList<K>(collectionOfType.getKeys());
     }
