@@ -14,7 +14,7 @@
         <dependency>
             <groupId>com.github.idioglossia</groupId>
             <artifactId>sloth-db</artifactId>
-            <version>1.1.1-RELEASE</version>
+            <version>1.1.2-RELEASE</version>
         </dependency>
 
         <!-- lombok -->

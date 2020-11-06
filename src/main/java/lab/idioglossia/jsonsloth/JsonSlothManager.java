@@ -6,6 +6,8 @@ import lab.idioglossia.sloth.Value;
 import lombok.SneakyThrows;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JsonSlothManager {
     private final JsonSlothStorage jsonSlothStorage;
@@ -14,6 +16,12 @@ public class JsonSlothManager {
     public JsonSlothManager(JsonSlothStorage jsonSlothStorage, ObjectMapper objectMapper) {
         this.jsonSlothStorage = jsonSlothStorage;
         this.objectMapper = objectMapper;
+    }
+
+    public <K> List<K> getKeys(Object object){
+        JsonSlothEntity jsonSlothEntity = getValidJsonSlothEntity(object.getClass());
+        Collection<K, String> collectionOfType = jsonSlothStorage.getCollectionOfType(jsonSlothEntity.collectionName(), jsonSlothEntity.type(), String.class);
+        return new ArrayList<K>(collectionOfType.getKeys());
     }
 
     @SneakyThrows
@@ -77,6 +85,10 @@ public class JsonSlothManager {
         final String json = objectMapper.writeValueAsString(object);
         Collection<String, String> collection = jsonSlothStorage.getCollectionOfType(jsonSlothEntity.collectionName(), jsonSlothEntity.type(), String.class);
         collection.update(getKey(jsonSlothIdField, object), new SaveValue(json));
+    }
+
+    public JsonSlothStorage jsonSlothStorage(){
+        return this.jsonSlothStorage;
     }
 
     @SneakyThrows
