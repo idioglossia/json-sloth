@@ -1,6 +1,6 @@
 package lab.idioglossia.jsonsloth;
 
-import lab.idioglossia.sloth.Collection;
+import lab.idioglossia.sloth.collection.Collection;
 
 import java.lang.annotation.*;
 

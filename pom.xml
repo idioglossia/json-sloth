@@ -6,7 +6,7 @@
 
     <groupId>lab.idioglossia</groupId>
     <artifactId>json-sloth</artifactId>
-    <version>1.1.7-RELEASE</version>
+    <version>1.2.0-RELEASE</version>
 
     <dependencies>
 
@@ -14,7 +14,7 @@
         <dependency>
             <groupId>com.github.idioglossia</groupId>
             <artifactId>sloth-db</artifactId>
-            <version>1.1.7-RELEASE</version>
+            <version>1.2.0-RELEASE</version>
         </dependency>
 
         <!-- lombok -->
@@ -39,5 +39,18 @@
             <url>https://jitpack.io</url>
         </repository>
     </repositories>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

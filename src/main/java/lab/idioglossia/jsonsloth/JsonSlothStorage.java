@@ -1,8 +1,8 @@
 package lab.idioglossia.jsonsloth;
 
-import lab.idioglossia.sloth.Collection;
-import lab.idioglossia.sloth.Storage;
-import lab.idioglossia.sloth.StorageDecorator;
+import lab.idioglossia.sloth.collection.Collection;
+import lab.idioglossia.sloth.storage.Storage;
+import lab.idioglossia.sloth.storage.StorageDecorator;
 
 import java.io.Serializable;
 

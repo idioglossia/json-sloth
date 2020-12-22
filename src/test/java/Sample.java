@@ -3,7 +3,7 @@ import lab.idioglossia.jsonsloth.JsonSlothEntity;
 import lab.idioglossia.jsonsloth.JsonSlothId;
 import lab.idioglossia.jsonsloth.JsonSlothManager;
 import lab.idioglossia.jsonsloth.JsonSlothStorage;
-import lab.idioglossia.sloth.SlothStorage;
+import lab.idioglossia.sloth.storage.SlothStorage;
 import lombok.*;
 
 import java.io.IOException;

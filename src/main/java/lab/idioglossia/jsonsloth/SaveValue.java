@@ -1,6 +1,6 @@
 package lab.idioglossia.jsonsloth;
 
-import lab.idioglossia.sloth.Value;
+import lab.idioglossia.sloth.collection.Value;
 import lombok.Getter;
 
 @Getter

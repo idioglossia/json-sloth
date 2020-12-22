@@ -1,8 +1,8 @@
 package lab.idioglossia.jsonsloth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lab.idioglossia.sloth.Collection;
-import lab.idioglossia.sloth.Value;
+import lab.idioglossia.sloth.collection.Collection;
+import lab.idioglossia.sloth.collection.Value;
 import lombok.SneakyThrows;
 
 import java.lang.reflect.Field;
